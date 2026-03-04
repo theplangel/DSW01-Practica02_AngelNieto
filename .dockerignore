@@ -1,0 +1,35 @@
+# Version control
+.git
+.gitignore
+
+# IDE / tooling
+.vscode
+.idea
+*.iml
+
+# Build outputs
+/target
+/build
+/bin
+/out
+
+# Dependency caches
+# Maven wrapper is required for container builds
+/.gradle
+
+# Documentation and specs
+/specs
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Environment files
+.env
+.env.*
+*.env
+*.env.*
+
+# Coverage and test outputs
+/coverage

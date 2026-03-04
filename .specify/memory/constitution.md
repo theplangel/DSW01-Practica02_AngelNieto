@@ -1,50 +1,53 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Constitución del Proyecto Backend
 
-## Core Principles
+## Principios Fundamentales
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Stack Tecnológico Innegociable
+Este proyecto se desarrolla exclusivamente con Spring Boot 3 y Java 17.  
+Toda nueva funcionalidad debe implementarse siguiendo convenciones del ecosistema Spring (inyección de dependencias, separación por capas, configuración por perfiles).  
+No se aceptan librerías o patrones que contradigan este stack sin una justificación técnica documentada.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Seguridad por Defecto
+La API debe estar protegida con autenticación básica (HTTP Basic) desde el inicio.  
+Ningún endpoint sensible puede exponerse sin control de acceso.  
+Las credenciales, secretos y configuraciones de seguridad deben manejarse por variables de entorno o perfiles, nunca hardcodeadas.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Persistencia Consistente con PostgreSQL
+La base de datos oficial del proyecto es PostgreSQL.  
+Todos los cambios de modelo deben reflejarse de forma controlada mediante migraciones versionadas (por ejemplo, Flyway o Liquibase).  
+Se prohíbe depender de motores embebidos en producción; las pruebas deben simular el comportamiento real de PostgreSQL.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Entorno Reproducible con Docker
+El proyecto debe poder levantarse en local con Docker y Docker Compose para garantizar paridad de entornos.  
+Debe existir como mínimo un servicio para la API y otro para PostgreSQL, con red, volúmenes y variables documentadas.  
+Cualquier miembro del equipo debe poder ejecutar el sistema con un único flujo estándar.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. API Contratada y Documentada
+La API REST debe mantenerse documentada con Swagger/OpenAPI de manera actualizada.  
+Cada endpoint nuevo o modificado requiere su contrato, ejemplos de request/response y códigos de error esperados.  
+No se considera completa una historia sin documentación de API verificable.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Restricciones Técnicas y de Calidad
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Arquitectura base por capas: `controller`, `service`, `repository`, `domain`/`dto`.
+- Validación obligatoria de entrada en todos los endpoints públicos.
+- Manejo centralizado de errores con respuestas consistentes.
+- Configuración por perfiles (`dev`, `test`, `prod`) con valores seguros por defecto.
+- Logs estructurados suficientes para diagnóstico, sin exponer datos sensibles.
+- Convención de versionado de API y compatibilidad explícita ante cambios breaking.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Flujo de Desarrollo y Puertas de Calidad
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Cada cambio funcional debe incluir pruebas automáticas (unitarias y/o integración según alcance).
+- Todo cambio de seguridad, base de datos o contrato API requiere revisión técnica obligatoria.
+- Antes de integrar, el proyecto debe compilar, pasar pruebas y levantar correctamente con Docker.
+- La documentación Swagger debe ser validada manualmente en cada feature relevante.
+- No se aprueban PRs con deuda crítica de seguridad, ausencia de pruebas o configuraciones no reproducibles.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+## Gobernanza
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Esta constitución prevalece sobre prácticas ad hoc del equipo.  
+Toda excepción debe documentarse con alcance, riesgos y fecha de revisión.  
+Las enmiendas a esta constitución requieren acuerdo del equipo técnico y actualización explícita de versión.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-02-25 | **Last Amended**: 2026-02-25
