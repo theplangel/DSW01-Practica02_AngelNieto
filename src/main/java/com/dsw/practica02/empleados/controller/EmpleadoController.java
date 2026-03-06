@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,8 +38,8 @@ public class EmpleadoController {
     @Operation(summary = "Listar empleados")
     @ApiResponse(responseCode = "200", description = "OK")
     @GetMapping
-    public ResponseEntity<List<EmpleadoResponse>> listAll() {
-        return ResponseEntity.ok(empleadoService.listEmpleados());
+    public ResponseEntity<Page<EmpleadoResponse>> listAll(@PageableDefault(size = 10, sort = "clave") Pageable pageable) {
+        return ResponseEntity.ok(empleadoService.listEmpleados(pageable));
     }
 
     @Operation(summary = "Obtener empleado por id")
