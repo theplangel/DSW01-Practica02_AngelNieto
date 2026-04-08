@@ -1,0 +1,4 @@
+ERROR: Multiple spec directories found with prefix '001': 001-crud-empleadas-login 001-crud-empleados 001-frontend-empleados-login
+Please ensure only one spec directory exists per numeric prefix.
+Copied plan template to /home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login/plan.md
+{"FEATURE_SPEC":"/home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login/spec.md","IMPL_PLAN":"/home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login/plan.md","SPECS_DIR":"/home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login","BRANCH":"001-crud-empleadas-login","HAS_GIT":"true"}
