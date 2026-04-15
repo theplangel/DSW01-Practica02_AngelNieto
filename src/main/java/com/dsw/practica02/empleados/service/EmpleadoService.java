@@ -1,6 +1,7 @@
 package com.dsw.practica02.empleados.service;
 
 import com.dsw.practica02.empleados.domain.Empleado;
+import com.dsw.practica02.empleados.domain.EmpleadoRole;
 import com.dsw.practica02.empleados.dto.EmpleadoCreateRequest;
 import com.dsw.practica02.empleados.dto.EmpleadoMapper;
 import com.dsw.practica02.empleados.dto.EmpleadoResponse;
@@ -99,6 +100,8 @@ public class EmpleadoService {
     private Empleado buildEmpleado(EmpleadoCreateRequest request, String claveNormalizada) {
         Empleado empleado = new Empleado();
         empleado.setClave(claveNormalizada);
+        empleado.setEmail(claveNormalizada.toLowerCase(Locale.ROOT) + "@empresa.local");
+        empleado.setRole(EmpleadoRole.EMPLEADO);
         empleado.setNombre(request.nombre().trim());
         empleado.setDireccion(request.direccion().trim());
         empleado.setTelefono(request.telefono().trim());
