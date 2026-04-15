@@ -2,14 +2,19 @@ package com.dsw.practica02.empleados.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Index;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.Index;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -38,6 +43,20 @@ public class Empleado {
     @Column(name = "telefono", nullable = false, length = 100)
     private String telefono;
 
+    @Column(name = "password", nullable = false, length = 255)
+    private String password;
+
+    @Column(name = "email", nullable = false, length = 150)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 20)
+    private EmpleadoRole role = EmpleadoRole.EMPLEADO;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departamento_id")
+    private Departamento departamento;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
@@ -47,6 +66,7 @@ public class Empleado {
     @PrePersist
     void onCreate() {
         normalizeClave();
+        normalizeEmail();
         OffsetDateTime now = OffsetDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
@@ -55,12 +75,19 @@ public class Empleado {
     @PreUpdate
     void onUpdate() {
         normalizeClave();
+        normalizeEmail();
         this.updatedAt = OffsetDateTime.now();
     }
 
     private void normalizeClave() {
         if (this.clave != null) {
             this.clave = this.clave.trim().toUpperCase();
+        }
+    }
+
+    private void normalizeEmail() {
+        if (this.email != null) {
+            this.email = this.email.trim().toLowerCase();
         }
     }
 
@@ -103,6 +130,39 @@ public class Empleado {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+        normalizeEmail();
+    }
+
+    public EmpleadoRole getRole() {
+        return role;
+    }
+
+    public void setRole(EmpleadoRole role) {
+        this.role = role;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
     public OffsetDateTime getCreatedAt() {

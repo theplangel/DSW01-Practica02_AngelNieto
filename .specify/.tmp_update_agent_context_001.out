@@ -1,0 +1,20 @@
+ERROR: Multiple spec directories found with prefix '001': 001-crud-empleadas-login 001-crud-empleados 001-frontend-empleados-login
+Please ensure only one spec directory exists per numeric prefix.
+INFO: === Updating agent context files for feature 001-crud-empleadas-login ===
+INFO: Parsing plan data from /home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login/plan.md
+INFO: Found language: Backend Java 17 + Spring Boot 3.2.3; Frontend TypeScript 5 + Angular 20 LTS
+INFO: Found framework: Spring Web, Spring Data JPA, Spring Security, Spring Validation, Flyway, PostgreSQL, springdoc-openapi; Angular Router, Reactive Forms, HttpClient
+INFO: Found database: PostgreSQL para datos de negocio y sesión de autenticación en cliente (session/local storage según diseño final)
+INFO: Found project type: Aplicación web full stack (API REST monolítica + SPA Angular)
+INFO: Updating specific agent: copilot
+INFO: Updating GitHub Copilot context file: /home/sinoe/DSW01-Practica02/.github/agents/copilot-instructions.md
+INFO: Updating existing agent context file...
+✓ Updated existing GitHub Copilot context file
+
+INFO: Summary of changes:
+  - Added language: Backend Java 17 + Spring Boot 3.2.3; Frontend TypeScript 5 + Angular 20 LTS
+  - Added framework: Spring Web, Spring Data JPA, Spring Security, Spring Validation, Flyway, PostgreSQL, springdoc-openapi; Angular Router, Reactive Forms, HttpClient
+  - Added database: PostgreSQL para datos de negocio y sesión de autenticación en cliente (session/local storage según diseño final)
+
+INFO: Usage: .specify/scripts/bash/update-agent-context.sh [claude|gemini|copilot|cursor-agent|qwen|opencode|codex|windsurf|kilocode|auggie|roo|codebuddy|amp|shai|q|agy|bob|qodercli]
+✓ Agent context update completed successfully

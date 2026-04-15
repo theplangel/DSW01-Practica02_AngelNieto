@@ -19,6 +19,10 @@ public record EmpleadoCreateRequest(
 
         @NotBlank(message = "El teléfono es obligatorio")
         @Size(max = 100, message = "El teléfono no debe superar 100 caracteres")
-        String telefono
+        String telefono,
+
+        @NotBlank(message = "La contraseña es obligatoria")
+        @Size(min = 8, max = 100, message = "La contraseña debe tener entre 8 y 100 caracteres")
+        String password
 ) {
 }

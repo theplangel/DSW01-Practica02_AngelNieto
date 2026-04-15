@@ -1,6 +1,6 @@
 package com.dsw.practica02.empleados.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,10 +36,10 @@ class EmpleadoControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void createEmpleado_shouldReturnCreated() throws Exception {
-        String payload = objectMapper.writeValueAsString(new CreatePayload("E-010", "Luis", "Centro", "555"));
+                String payload = objectMapper.writeValueAsString(new CreatePayload("E-010", "Luis", "Centro", "555", "secret123"));
 
         mockMvc.perform(post(BASE_URL)
-                        .with(httpBasic("admin", "admin123"))
+                .with(user("admin").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isCreated())
@@ -48,21 +48,21 @@ class EmpleadoControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void createEmpleado_shouldReturnConflictWhenDuplicate() throws Exception {
-        String payload = objectMapper.writeValueAsString(new CreatePayload("E-020", "Ana", "Centro", "555"));
+                String payload = objectMapper.writeValueAsString(new CreatePayload("E-020", "Ana", "Centro", "555", "secret123"));
 
         mockMvc.perform(post(BASE_URL)
-                        .with(httpBasic("admin", "admin123"))
+                .with(user("admin").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(post(BASE_URL)
-                        .with(httpBasic("admin", "admin123"))
+                .with(user("admin").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(payload))
                 .andExpect(status().isConflict());
     }
 
-    private record CreatePayload(String clave, String nombre, String direccion, String telefono) {
+        private record CreatePayload(String clave, String nombre, String direccion, String telefono, String password) {
     }
 }

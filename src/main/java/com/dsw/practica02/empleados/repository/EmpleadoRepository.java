@@ -10,7 +10,15 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, UUID> {
 
     Optional<Empleado> findByClaveIgnoreCase(String clave);
 
+    Optional<Empleado> findByEmailIgnoreCase(String email);
+
     boolean existsByClaveIgnoreCase(String clave);
+
+    boolean existsByEmailIgnoreCase(String email);
+
+    boolean existsByRole(com.dsw.practica02.empleados.domain.EmpleadoRole role);
+
+    boolean existsByDepartamentoId(UUID departamentoId);
 
     List<Empleado> findAllByOrderByClaveAsc();
 }

@@ -1,0 +1,3 @@
+ERROR: Multiple spec directories found with prefix '001': 001-crud-empleadas-login 001-crud-empleados 001-frontend-empleados-login
+Please ensure only one spec directory exists per numeric prefix.
+{"FEATURE_DIR":"/home/sinoe/DSW01-Practica02/specs/001-crud-empleadas-login","AVAILABLE_DOCS":["research.md","data-model.md","contracts/","quickstart.md"]}

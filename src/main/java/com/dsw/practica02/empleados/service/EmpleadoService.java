@@ -1,6 +1,7 @@
 package com.dsw.practica02.empleados.service;
 
 import com.dsw.practica02.empleados.domain.Empleado;
+import com.dsw.practica02.empleados.domain.EmpleadoRole;
 import com.dsw.practica02.empleados.dto.EmpleadoCreateRequest;
 import com.dsw.practica02.empleados.dto.EmpleadoMapper;
 import com.dsw.practica02.empleados.dto.EmpleadoResponse;
@@ -10,12 +11,16 @@ import com.dsw.practica02.empleados.service.exception.ClaveDuplicadaException;
 import com.dsw.practica02.empleados.service.exception.EmpleadoNotFoundException;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,10 +32,16 @@ public class EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
     private final MeterRegistry meterRegistry;
+    private final PasswordEncoder passwordEncoder;
 
-    public EmpleadoService(EmpleadoRepository empleadoRepository, MeterRegistry meterRegistry) {
+    public EmpleadoService(
+            EmpleadoRepository empleadoRepository,
+            MeterRegistry meterRegistry,
+            PasswordEncoder passwordEncoder
+    ) {
         this.empleadoRepository = empleadoRepository;
         this.meterRegistry = meterRegistry;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -47,8 +58,11 @@ public class EmpleadoService {
     }
 
     @Transactional
-    public List<EmpleadoResponse> listEmpleados() {
-        return EmpleadoMapper.toResponse(empleadoRepository.findAllByOrderByClaveAsc());
+    public Page<EmpleadoResponse> listEmpleados(Pageable pageable) {
+        Pageable resolvedPageable = pageable.getSort().isSorted()
+                ? pageable
+                : PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("clave").ascending());
+        return empleadoRepository.findAll(resolvedPageable).map(EmpleadoMapper::toResponse);
     }
 
     @Transactional
@@ -71,6 +85,7 @@ public class EmpleadoService {
         empleado.setNombre(request.nombre().trim());
         empleado.setDireccion(request.direccion().trim());
         empleado.setTelefono(request.telefono().trim());
+        empleado.setPassword(passwordEncoder.encode(request.password().trim()));
 
         Empleado saved = empleadoRepository.save(empleado);
         return EmpleadoMapper.toResponse(saved);
@@ -85,9 +100,12 @@ public class EmpleadoService {
     private Empleado buildEmpleado(EmpleadoCreateRequest request, String claveNormalizada) {
         Empleado empleado = new Empleado();
         empleado.setClave(claveNormalizada);
+        empleado.setEmail(claveNormalizada.toLowerCase(Locale.ROOT) + "@empresa.local");
+        empleado.setRole(EmpleadoRole.EMPLEADO);
         empleado.setNombre(request.nombre().trim());
         empleado.setDireccion(request.direccion().trim());
         empleado.setTelefono(request.telefono().trim());
+        empleado.setPassword(passwordEncoder.encode(request.password().trim()));
         return empleado;
     }
 
