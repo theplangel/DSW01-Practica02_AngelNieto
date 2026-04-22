@@ -42,12 +42,12 @@ class EmpleadoServiceTest {
     @BeforeEach
     void setUp() {
         createRequest = new EmpleadoCreateRequest("e-001", "Ana", "Centro", "555", "secreto123");
-        when(meterRegistry.counter("api.empleados.alta")).thenReturn(mock(Counter.class));
-        when(passwordEncoder.encode("secreto123")).thenReturn("{noop}secreto123");
     }
 
     @Test
     void registerEmpleado_shouldPersistAndReturnResponse() {
+        when(meterRegistry.counter("api.empleados.alta")).thenReturn(mock(Counter.class));
+        when(passwordEncoder.encode("secreto123")).thenReturn("{noop}secreto123");
         when(empleadoRepository.existsByClaveIgnoreCase("E-001")).thenReturn(false);
         when(empleadoRepository.save(any(Empleado.class))).thenAnswer(invocation -> {
             Empleado entity = invocation.getArgument(0);
