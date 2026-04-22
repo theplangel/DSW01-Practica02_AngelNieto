@@ -35,7 +35,9 @@ class EmpleadoControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void createEmpleado_shouldReturnCreated() throws Exception {
-        String payload = objectMapper.writeValueAsString(new CreatePayload("E-010", "Luis", "Centro", "555"));
+        String payload = objectMapper.writeValueAsString(
+            new CreatePayload("E-010", "Luis", "Centro", "555", "secreto123")
+        );
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -46,7 +48,9 @@ class EmpleadoControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void createEmpleado_shouldReturnConflictWhenDuplicate() throws Exception {
-        String payload = objectMapper.writeValueAsString(new CreatePayload("E-020", "Ana", "Centro", "555"));
+        String payload = objectMapper.writeValueAsString(
+            new CreatePayload("E-020", "Ana", "Centro", "555", "secreto123")
+        );
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,6 +63,6 @@ class EmpleadoControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isConflict());
     }
 
-    private record CreatePayload(String clave, String nombre, String direccion, String telefono) {
+    private record CreatePayload(String clave, String nombre, String direccion, String telefono, String password) {
     }
 }
