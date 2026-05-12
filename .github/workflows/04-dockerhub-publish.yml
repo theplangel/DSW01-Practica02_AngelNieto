@@ -1,8 +1,8 @@
-name: 03 - Publish Docker Hub Images
+name: 04 - Publish Docker Hub Images
 
 on:
   push:
-    branches: ["main", "master", "develop"]
+    branches: ["main","master","develop"]
   workflow_dispatch:
 
 jobs:

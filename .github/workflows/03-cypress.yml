@@ -1,4 +1,4 @@
-name: 04 - Frontend Cypress E2E
+name: 03 - Frontend Cypress E2E
 
 on:
   push:
