@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>crud-empleados frontend</title>
+    <style>
+      body { font-family: Arial, sans-serif; background: #f5f7fb; color: #1f2937; }
+      .container { max-width: 420px; margin: 6rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.06);} 
+      label { display:block; margin-top: 0.75rem }
+      input { width:100%; padding:0.5rem; margin-top:0.25rem }
+      button { margin-top:1rem; padding:0.6rem 1rem }
+      .hidden { display:none }
+      .error { color: #b91c1c }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container" id="login-screen">
+        <h1>Ingresar</h1>
+        <form id="login-form">
+          <label for="username">Usuario</label>
+          <input id="username" name="username" autocomplete="username" />
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" />
+          <div class="error hidden" id="login-error">Usuario o contraseña incorrectos</div>
+          <button id="login-button" type="submit">Entrar</button>
+        </form>
+      </div>
+
+      <div class="container hidden" id="dashboard">
+        <h1 id="welcome">Welcome</h1>
+        <p>Has accedido correctamente al frontend.</p>
+      </div>
+    </main>
+
+    <script>
+      const loginForm = document.getElementById('login-form');
+      const errorEl = document.getElementById('login-error');
+      const loginScreen = document.getElementById('login-screen');
+      const dashboard = document.getElementById('dashboard');
+      const welcome = document.getElementById('welcome');
+
+      // Simple client-side auth for e2e test: user=user pass=pass
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
+        if (u === 'user' && p === 'pass') {
+          errorEl.classList.add('hidden');
+          loginScreen.classList.add('hidden');
+          dashboard.classList.remove('hidden');
+          welcome.textContent = `Welcome, ${u}`;
+        } else {
+          errorEl.classList.remove('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
