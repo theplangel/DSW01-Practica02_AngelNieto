@@ -1,4 +1,4 @@
-name: CI + SonarCloud
+name: 02 - SonarCloud
 
 on:
   push:
