@@ -1,0 +1,52 @@
+name: 01 - CI
+
+on:
+  push:
+    branches: ["develop"]
+  pull_request:
+    branches: ["main"]
+    types: [closed]
+  workflow_dispatch:
+
+jobs:
+  backend-tests:
+    name: Backend Unit Tests
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and test backend
+        run: ./mvnw -B verify
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: target/surefire-reports/
+
+  frontend-build:
+    name: Frontend Build Validation
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build frontend container image
+        run: docker build -f Dockerfile .
