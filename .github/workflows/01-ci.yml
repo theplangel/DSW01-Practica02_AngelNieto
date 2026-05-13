@@ -4,12 +4,14 @@ on:
   push:
     branches: ["develop"]
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["main"]
+    types: [closed]
   workflow_dispatch:
 
 jobs:
   backend-tests:
     name: Backend Unit Tests
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
 
     steps:
@@ -35,6 +37,7 @@ jobs:
 
   frontend-build:
     name: Frontend Build Validation
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
 
     defaults:
