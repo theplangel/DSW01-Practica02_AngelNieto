@@ -1,8 +1,9 @@
 name: 04 - Publish Docker Hub Images
 
 on:
-  push:
-    branches: ["main","master","develop"]
+  workflow_run:
+    workflows: ["03 - Frontend Cypress E2E"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:
