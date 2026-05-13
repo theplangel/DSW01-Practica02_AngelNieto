@@ -11,10 +11,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: frontend
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,13 +24,19 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: |
+          cd frontend
+          npm install --no-audit --no-fund
 
       - name: Start static server
-        run: npx http-server -p 8080 ./ & sleep 2
+        run: |
+          cd frontend
+          npx http-server -p 8080 ./ & sleep 2
 
       - name: Run Cypress tests
-        run: npx cypress run --headless --config baseUrl=http://localhost:8080
+        run: |
+          cd frontend
+          npx cypress run --headless --config baseUrl=http://localhost:8080
 
       - name: Upload Cypress artifacts
         if: always()
