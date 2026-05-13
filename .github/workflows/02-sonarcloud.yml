@@ -9,6 +9,7 @@ on:
 jobs:
   sonar-scan:
     name: SonarCloud Scan
+    if: ${{ github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.head_branch == 'develop' || github.event.workflow_run.event == 'pull_request') }}
     runs-on: ubuntu-latest
 
     steps:
