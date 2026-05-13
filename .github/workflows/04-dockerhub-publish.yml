@@ -4,11 +4,10 @@ on:
   workflow_run:
     workflows: ["03 - Frontend Cypress E2E"]
     types: [completed]
-  workflow_dispatch:
 
 jobs:
   publish-images:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop' }}
     runs-on: ubuntu-latest
 
     env:
