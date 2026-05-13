@@ -21,6 +21,13 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      - name: Verify frontend directory
+        run: |
+          if [ ! -d frontend ]; then
+            echo "frontend directory not found in checkout"
+            exit 1
+          fi
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
